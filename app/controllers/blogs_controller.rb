@@ -45,7 +45,7 @@ class BlogsController < ApplicationController
   private
 
   def set_blog
-    @blog = Blog.find(params[:id])
+    @blog = Blog.find_by(id: params[:id], user_id: current_user&.id) || Blog.published.find(params[:id])
   end
 
   def set_editable_blog
