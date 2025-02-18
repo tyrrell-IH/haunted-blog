@@ -4,7 +4,7 @@ class BlogsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
   before_action :set_blog, only: %i[show]
-  before_action :set_editable_blog, only: %i[edit update destroy]
+  before_action :set_current_user_blog, only: %i[edit update destroy]
 
   def index
     @blogs = Blog.search(params[:term]).published.default_order
@@ -48,7 +48,7 @@ class BlogsController < ApplicationController
     @blog = Blog.find_by(id: params[:id], user_id: current_user&.id) || Blog.published.find(params[:id])
   end
 
-  def set_editable_blog
+  def set_current_user_blog
     @blog = Blog.find_by!(id: params[:id], user_id: current_user.id)
   end
 
