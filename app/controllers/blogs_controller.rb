@@ -45,7 +45,7 @@ class BlogsController < ApplicationController
   private
 
   def set_blog
-    @blog = Blog.find_by(id: params[:id], user_id: current_user&.id) || Blog.published.find(params[:id])
+    @blog = Blog.where(user_id: current_user&.id).or(Blog.published).find(params[:id])
   end
 
   def set_current_user_blog
